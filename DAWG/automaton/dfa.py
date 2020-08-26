@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 
 
 class DFA(metaclass=ABCMeta):
@@ -7,10 +7,10 @@ class DFA(metaclass=ABCMeta):
         self._alphabet = alphabet
         self._start_state = start_state
         self._final_states = final_states
+        self._transition_table = dict()
 
-    @abstractmethod
     def _transition_function(self, state, symbol):
-        pass
+        return self._transition_table[(state, symbol)]
 
     def _extended_transition_function(self, state, string):
         if not string:
@@ -34,17 +34,12 @@ if __name__ == "__main__":
     class A(DFA):
         def __init__(self):
             super().__init__({0, 1, 2}, {"0", "1"}, 0, {2})
-            self._transition_table = {
-                (0, "0"): 1,
-                (0, "1"): 0,
-                (1, "0"): 1,
-                (1, "1"): 2,
-                (2, "0"): 2,
-                (2, "1"): 2,
-            }
-
-        def _transition_function(self, state, symbol):
-            return self._transition_table[(state, symbol)]
+            self._transition_table[(0, "0")] = 1
+            self._transition_table[(0, "1")] = 0
+            self._transition_table[(1, "0")] = 1
+            self._transition_table[(1, "1")] = 2
+            self._transition_table[(2, "0")] = 2
+            self._transition_table[(2, "1")] = 2
 
     a = A()
-    print(a.accept("10"))
+    print(a.accept("01"))
