@@ -25,20 +25,20 @@ class NFA(DFA):
         except KeyError:
             return set()
 
-    def _extended_transition_function(self, state, string):
+    def _ext_transition_function(self, state, string):
         if not string:
             return self._eclose(state)
         else:
             x = string[0:-1]
             a = string[-1]
 
-            transitions = self._extended_transition_function(state, x)
+            transitions = self._ext_transition_function(state, x)
             transitions = self._union_all_fn(
                 transitions, self._transition_function, a)
             return self._union_all_fn(transitions, self._eclose)
 
     def accept(self, string):
-        result = self._extended_transition_function(self._start_state, string)
+        result = self._ext_transition_function(self._start_state, string)
         return bool(result.intersection(self._final_states))
 
 

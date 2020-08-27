@@ -12,19 +12,19 @@ class DFA(metaclass=ABCMeta):
     def _transition_function(self, state, symbol):
         return self._transition_table[(state, symbol)]
 
-    def _extended_transition_function(self, state, string):
+    def _ext_transition_function(self, state, string):
         if not string:
             return state
         else:
             x = string[0:-1]
             a = string[-1]
             return self._transition_function(
-                self._extended_transition_function(state, x), a
+                self._ext_transition_function(state, x), a
             )
 
     def accept(self, string):
         return (
-            self._extended_transition_function(self._start_state, string)
+            self._ext_transition_function(self._start_state, string)
             in self._final_states
         )
 
