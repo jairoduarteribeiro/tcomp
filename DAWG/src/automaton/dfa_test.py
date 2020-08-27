@@ -19,6 +19,14 @@ class DFATestCase(unittest.TestCase):
     def setUpClass(cls):
         cls.a = A()
 
+    def test_transition_function(self):
+        self.assertEqual(self.a._transition_function(0, '0'), 2)
+        self.assertEqual(self.a._transition_function(0, '1'), 0)
+        self.assertEqual(self.a._transition_function(1, '0'), 1)
+        self.assertEqual(self.a._transition_function(1, '1'), 1)
+        self.assertEqual(self.a._transition_function(2, '0'), 2)
+        self.assertEqual(self.a._transition_function(2, '1'), 1)
+
     def test_accept(self):
         self.assertTrue(self.a.accept('01'))
         self.assertTrue(self.a.accept('11101'))
