@@ -66,6 +66,32 @@ class NFATestCase(unittest.TestCase):
         self.assertEqual(self.a._eclose(5), {5})
         self.assertEqual(self.a._eclose({2, 3}), {2, 3, 5})
 
+    def test_transition_function(self):
+        self.assertEqual(self.a._transition_function(0, ''), {1})
+        self.assertEqual(self.a._transition_function(0, '0'), set())
+        self.assertEqual(self.a._transition_function(0, '+'), {1})
+        self.assertEqual(self.a._transition_function(0, '.'), set())
+        self.assertEqual(self.a._transition_function(1, ''), set())
+        self.assertEqual(self.a._transition_function(1, '0'), {1, 4})
+        self.assertEqual(self.a._transition_function(1, '+'), set())
+        self.assertEqual(self.a._transition_function(1, '.'), {2})
+        self.assertEqual(self.a._transition_function(2, ''), set())
+        self.assertEqual(self.a._transition_function(2, '0'), {3})
+        self.assertEqual(self.a._transition_function(2, '+'), set())
+        self.assertEqual(self.a._transition_function(2, '.'), set())
+        self.assertEqual(self.a._transition_function(3, ''), {5})
+        self.assertEqual(self.a._transition_function(3, '0'), {3})
+        self.assertEqual(self.a._transition_function(3, '+'), set())
+        self.assertEqual(self.a._transition_function(3, '.'), set())
+        self.assertEqual(self.a._transition_function(4, ''), set())
+        self.assertEqual(self.a._transition_function(4, '0'), set())
+        self.assertEqual(self.a._transition_function(4, '+'), set())
+        self.assertEqual(self.a._transition_function(4, '.'), {3})
+        self.assertEqual(self.a._transition_function(5, ''), set())
+        self.assertEqual(self.a._transition_function(5, '0'), set())
+        self.assertEqual(self.a._transition_function(5, '+'), set())
+        self.assertEqual(self.a._transition_function(5, '.'), set())
+
 
 if __name__ == '__main__':
     unittest.main()
