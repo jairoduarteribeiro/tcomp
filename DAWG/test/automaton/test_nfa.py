@@ -1,5 +1,5 @@
 import unittest
-from ... src.automaton.nfa import NFA
+from ...src.automaton.nfa import NFA
 
 
 class A(NFA):

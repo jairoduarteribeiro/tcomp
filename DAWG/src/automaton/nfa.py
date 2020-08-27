@@ -1,5 +1,5 @@
 from .dfa import DFA
-from functools import reduce
+from ..utils.set_utils import SetUtils
 
 
 class NFA(DFA):
@@ -8,15 +8,9 @@ class NFA(DFA):
         super().__init__(states, alphabet, start_state, final_states,
                          transition_table)
 
-    def _union_all_fn(self, elements, fn, *params):
-        def reduce_fn(acc, curr):
-            return acc.union(fn(curr, *params))
-
-        return reduce(reduce_fn, elements, frozenset())
-
     def _eclose(self, st):
         if isinstance(st, frozenset):
-            return self._union_all_fn(st, self._eclose)
+            return SetUtils.union_all_fn(st, self._eclose)
         else:
             epsilon_transitions = self._transition_function(st, '')
             return frozenset({st}).union(self._eclose(epsilon_transitions))
@@ -35,9 +29,9 @@ class NFA(DFA):
             a = string[-1]
 
             transitions = self._ext_transition_function(state, x)
-            transitions = self._union_all_fn(
+            transitions = SetUtils.union_all_fn(
                 transitions, self._transition_function, a)
-            return self._union_all_fn(transitions, self._eclose)
+            return SetUtils.union_all_fn(transitions, self._eclose)
 
     def add_transition(self, state_before, symbol, state_after):
         super().add_transition(state_before, symbol, frozenset(state_after))

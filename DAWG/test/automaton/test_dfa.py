@@ -1,5 +1,5 @@
 import unittest
-from ... src.automaton.dfa import DFA
+from ...src.automaton.dfa import DFA
 
 
 class A(DFA):
