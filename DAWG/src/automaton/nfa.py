@@ -16,7 +16,7 @@ class NFA(DFA):
         if isinstance(st, set):
             return self._union_all_fn(st, self._eclose)
         else:
-            epsilon_transitions = self._transition_function(st, "")
+            epsilon_transitions = self._transition_function(st, '')
             return {st}.union(self._eclose(epsilon_transitions))
 
     def _transition_function(self, state, symbol):
@@ -42,15 +42,15 @@ class NFA(DFA):
         return bool(result.intersection(self._final_states))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 
     class A(NFA):
         def __init__(self):
-            super().__init__({0, 1, 2, 3}, {"a", "b"}, 0, {2})
-            self._transition_table[(0, "0")] = 1
-            self._transition_table[(1, "")] = 3
-            self._transition_table[(0, "")] = 2
-            self._transition_table[(2, "")] = 1
+            super().__init__({0, 1, 2, 3}, {'a', 'b'}, 0, {2})
+            self._transition_table[(0, '0')] = 1
+            self._transition_table[(1, '')] = 3
+            self._transition_table[(0, '')] = 2
+            self._transition_table[(2, '')] = 1
 
         def test(self):
             print(self._eclose({0, 1}))
