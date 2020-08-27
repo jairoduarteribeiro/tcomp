@@ -4,14 +4,18 @@ from dfa import DFA
 
 class A(DFA):
     def __init__(self):
-        super().__init__(states={0, 1, 2}, alphabet={
-            '0', '1'}, start_state=0, final_states={1})
-        self._transition_table[(0, '0')] = 2
-        self._transition_table[(0, '1')] = 0
-        self._transition_table[(1, '0')] = 1
-        self._transition_table[(1, '1')] = 1
-        self._transition_table[(2, '0')] = 2
-        self._transition_table[(2, '1')] = 1
+        super().__init__(
+            states={0, 1, 2},
+            alphabet={'0', '1'},
+            start_state=0,
+            final_states={1}
+        )
+        self.add_transition(0, '0', 2)
+        self.add_transition(0, '1', 0)
+        self.add_transition(1, '0', 1)
+        self.add_transition(1, '1', 1)
+        self.add_transition(2, '0', 2)
+        self.add_transition(2, '1', 1)
 
 
 class DFATestCase(unittest.TestCase):
