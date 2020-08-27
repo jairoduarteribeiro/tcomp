@@ -56,3 +56,16 @@ class NFATestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.a = A()
+
+    def test_eclose(self):
+        self.assertEqual(self.a._eclose(0), {0, 1})
+        self.assertEqual(self.a._eclose(1), {1})
+        self.assertEqual(self.a._eclose(2), {2})
+        self.assertEqual(self.a._eclose(3), {3, 5})
+        self.assertEqual(self.a._eclose(4), {4})
+        self.assertEqual(self.a._eclose(5), {5})
+        self.assertEqual(self.a._eclose({2, 3}), {2, 3, 5})
+
+
+if __name__ == '__main__':
+    unittest.main()
