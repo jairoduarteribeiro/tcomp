@@ -1,0 +1,58 @@
+import unittest
+from nfa import NFA
+
+
+class A(NFA):
+    def __init__(self):
+        super().__init__(
+            {0, 1, 2, 3, 4, 5},
+            {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '.'},
+            0,
+            {5}
+        )
+        self._transition_table[(0, '')] = {1}
+        self._transition_table[(0, '+')] = {1}
+        self._transition_table[(0, '-')] = {1}
+
+        self._transition_table[(1, '0')] = {1, 4}
+        self._transition_table[(1, '1')] = {1, 4}
+        self._transition_table[(1, '2')] = {1, 4}
+        self._transition_table[(1, '3')] = {1, 4}
+        self._transition_table[(1, '4')] = {1, 4}
+        self._transition_table[(1, '5')] = {1, 4}
+        self._transition_table[(1, '6')] = {1, 4}
+        self._transition_table[(1, '7')] = {1, 4}
+        self._transition_table[(1, '8')] = {1, 4}
+        self._transition_table[(1, '9')] = {1, 4}
+        self._transition_table[(1, '.')] = {2}
+
+        self._transition_table[(2, '0')] = {3}
+        self._transition_table[(2, '1')] = {3}
+        self._transition_table[(2, '2')] = {3}
+        self._transition_table[(2, '3')] = {3}
+        self._transition_table[(2, '4')] = {3}
+        self._transition_table[(2, '5')] = {3}
+        self._transition_table[(2, '6')] = {3}
+        self._transition_table[(2, '7')] = {3}
+        self._transition_table[(2, '8')] = {3}
+        self._transition_table[(2, '9')] = {3}
+
+        self._transition_table[(3, '')] = {5}
+        self._transition_table[(3, '0')] = {3}
+        self._transition_table[(3, '1')] = {3}
+        self._transition_table[(3, '2')] = {3}
+        self._transition_table[(3, '3')] = {3}
+        self._transition_table[(3, '4')] = {3}
+        self._transition_table[(3, '5')] = {3}
+        self._transition_table[(3, '6')] = {3}
+        self._transition_table[(3, '7')] = {3}
+        self._transition_table[(3, '8')] = {3}
+        self._transition_table[(3, '9')] = {3}
+
+        self._transition_table[(4, '.')] = {3}
+
+
+class NFATestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.a = A()
