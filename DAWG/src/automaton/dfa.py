@@ -9,8 +9,16 @@ class DFA(metaclass=ABCMeta):
         self._final_states = final_states
         self._transition_table = dict()
 
+    @property
+    def transition_table(self):
+        return self._transition_table
+
+    @transition_table.setter
+    def transition_table(self, transition_table):
+        self._transition_table = transition_table
+
     def _transition_function(self, state, symbol):
-        return self._transition_table[(state, symbol)]
+        return self.transition_table[(state, symbol)]
 
     def _ext_transition_function(self, state, string):
         if not string:
