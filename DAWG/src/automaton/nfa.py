@@ -3,8 +3,10 @@ from functools import reduce
 
 
 class NFA(DFA):
-    def __init__(self, states, alphabet, start_state, final_states):
-        super().__init__(states, alphabet, start_state, final_states)
+    def __init__(self, states, alphabet, start_state, final_states,
+                 transition_table=dict()):
+        super().__init__(states, alphabet, start_state, final_states,
+                         transition_table)
 
     def _union_all_fn(self, elements, fn, *params):
         def reduce_fn(acc, curr):

@@ -1,13 +1,11 @@
-from abc import ABCMeta
-
-
-class DFA(metaclass=ABCMeta):
-    def __init__(self, states, alphabet, start_state, final_states):
+class DFA():
+    def __init__(self, states, alphabet, start_state, final_states,
+                 transition_table=dict()):
         self._states = frozenset(states)
         self._alphabet = frozenset(alphabet)
         self._start_state = start_state
         self._final_states = frozenset(final_states)
-        self._transition_table = dict()
+        self._transition_table = transition_table
 
     def _transition_function(self, state, symbol):
         return self._transition_table[(state, symbol)]
