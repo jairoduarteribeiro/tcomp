@@ -39,3 +39,18 @@ class NFA(DFA):
     def accept(self, string):
         result = self._ext_transition_function(self._start_state, string)
         return bool(result.intersection(self._final_states))
+
+    def convert_to_dfa(self):
+        dfa_states = SetUtils.power_set(self._states)
+        dfa_start_state = self._eclose(self._start_state)
+        dfa_final_states = filter(lambda s: len(
+            s.intersection(self._final_states)) > 0, dfa_states)
+        dfa = DFA(dfa_states, self._alphabet,
+                  dfa_start_state, dfa_final_states)
+
+        for symbol in self._alphabet:
+            for s in dfa_states:
+                r = SetUtils.union_all_fn(s, self._transition_function, symbol)
+                dfa.add_transition(s, symbol, self._eclose(r))
+
+        return dfa
