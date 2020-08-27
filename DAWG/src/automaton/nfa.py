@@ -10,20 +10,20 @@ class NFA(DFA):
         def reduce_fn(acc, curr):
             return acc.union(fn(curr, *params))
 
-        return reduce(reduce_fn, elements, set())
+        return reduce(reduce_fn, elements, frozenset())
 
     def _eclose(self, st):
-        if isinstance(st, set):
+        if isinstance(st, frozenset):
             return self._union_all_fn(st, self._eclose)
         else:
             epsilon_transitions = self._transition_function(st, '')
-            return {st}.union(self._eclose(epsilon_transitions))
+            return frozenset({st}).union(self._eclose(epsilon_transitions))
 
     def _transition_function(self, state, symbol):
         try:
             return super()._transition_function(state, symbol)
         except KeyError:
-            return set()
+            return frozenset()
 
     def _ext_transition_function(self, state, string):
         if not string:
@@ -36,6 +36,9 @@ class NFA(DFA):
             transitions = self._union_all_fn(
                 transitions, self._transition_function, a)
             return self._union_all_fn(transitions, self._eclose)
+
+    def add_transition(self, state_before, symbol, state_after):
+        super().add_transition(state_before, symbol, frozenset(state_after))
 
     def accept(self, string):
         result = self._ext_transition_function(self._start_state, string)
