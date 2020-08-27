@@ -40,20 +40,3 @@ class NFA(DFA):
     def accept(self, string):
         result = self._ext_transition_function(self._start_state, string)
         return bool(result.intersection(self._final_states))
-
-
-if __name__ == '__main__':
-
-    class A(NFA):
-        def __init__(self):
-            super().__init__({0, 1, 2, 3}, {'a', 'b'}, 0, {2})
-            self._transition_table[(0, '0')] = 1
-            self._transition_table[(1, '')] = 3
-            self._transition_table[(0, '')] = 2
-            self._transition_table[(2, '')] = 1
-
-        def test(self):
-            print(self._eclose({0, 1}))
-
-    a = A()
-    a.test()
