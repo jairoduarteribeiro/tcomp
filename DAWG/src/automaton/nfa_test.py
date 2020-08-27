@@ -92,6 +92,16 @@ class NFATestCase(unittest.TestCase):
         self.assertEqual(self.a._transition_function(5, '+'), set())
         self.assertEqual(self.a._transition_function(5, '.'), set())
 
+    def test_ext_transition_function(self):
+        self.assertEqual(self.a._ext_transition_function(0, ''), {0, 1})
+        self.assertEqual(self.a._ext_transition_function(0, '5'), {1, 4})
+        self.assertEqual(self.a._ext_transition_function(0, '5.'), {2, 3, 5})
+        self.assertEqual(self.a._ext_transition_function(0, '5.6'), {3, 5})
+        self.assertEqual(self.a._ext_transition_function(0, '+'), {1})
+        self.assertEqual(self.a._ext_transition_function(0, '+5'), {1, 4})
+        self.assertEqual(self.a._ext_transition_function(0, '+5.'), {2, 3, 5})
+        self.assertEqual(self.a._ext_transition_function(0, '+5.6'), {3, 5})
+
 
 if __name__ == '__main__':
     unittest.main()
