@@ -1,2 +1,4 @@
-if __name__ == '__main__':
-    print('DAWG project')
+from .automaton.dawg import DAWG
+
+
+a = DAWG('waltz.txt')
