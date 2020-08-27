@@ -1,5 +1,5 @@
 import unittest
-from nfa import NFA
+from .nfa import NFA
 
 
 class A(NFA):

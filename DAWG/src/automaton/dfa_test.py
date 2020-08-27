@@ -1,5 +1,5 @@
 import unittest
-from dfa import DFA
+from .dfa import DFA
 
 
 class A(DFA):
