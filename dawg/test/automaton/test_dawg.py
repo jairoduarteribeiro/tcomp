@@ -5,7 +5,10 @@ from ...src.automaton.dawg import DAWG
 class DAWGTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.a = DAWG('dawg/waltz.txt')
+        cls.a = DAWG()
 
     def test_build_sample(self):
-        self.assertEqual(0, 0)
+        sample = self.a._build_sample('dawg/test/sample.txt')
+        self.assertEqual(sample, {
+                         '+': frozenset({'aba', 'baa', 'b'}),
+                         '-': frozenset({'a', 'bab', 'aaa'})})
