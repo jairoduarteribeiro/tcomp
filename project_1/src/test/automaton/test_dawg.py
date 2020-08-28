@@ -13,3 +13,9 @@ class DAWGTestCase(unittest.TestCase):
                          {'+': frozenset({'aba', 'baa', 'b'}), '-': frozenset({
                              'a', 'bab', 'aaa'
                          })})
+
+    def test_p(self):
+        self.assertEqual(self.a._p('abc'), frozenset({'', 'a', 'ab', 'abc'}))
+        self.assertEqual(self.a._p(frozenset({'aba', 'baa', 'b'})), frozenset({'', 'a', 'ab',
+                                                                               'aba', 'b', 'ba',
+                                                                               'baa'}))
