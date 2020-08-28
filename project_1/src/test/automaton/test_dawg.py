@@ -28,6 +28,27 @@ class DAWGTestCase(unittest.TestCase):
 
     def test_v(self):
         self.assertEqual(self.a._v(frozenset({'aba', 'baa', 'b'})),
-                         frozenset({frozenset({'aba', 'baa', 'b'}), frozenset({'ba'}), frozenset(
-                             {'aa', ''}), frozenset({'a'}), frozenset({''}), frozenset({'a'}),
-                                    frozenset({''})}))
+                         {'': frozenset({'b', 'baa', 'aba'}),
+                          'a': frozenset({'ba'}),
+                          'ab': frozenset({'a'}),
+                          'aba': frozenset({''}),
+                          'b': frozenset({'', 'aa'}),
+                          'ba': frozenset({'a'}),
+                          'baa': frozenset({''})})
+
+    def test_l(self):
+        self.assertEqual(self.a._l({'': frozenset({'b', 'baa', 'aba'}),
+                                    'a': frozenset({'ba'}),
+                                    'ab': frozenset({'a'}),
+                                    'aba': frozenset({''}),
+                                    'b': frozenset({'', 'aa'}),
+                                    'ba': frozenset({'a'}),
+                                    'baa': frozenset({''})}),
+                         {(frozenset({'b', 'baa', 'aba'}), frozenset({'ba'})):
+                              frozenset({'a'}), (frozenset({'b', 'baa', 'aba'}), frozenset({''})):
+                              frozenset({'b'}),
+                          (frozenset({'b', 'baa', 'aba'}), frozenset({'', 'aa'})):
+                              frozenset({'b'}), (frozenset({'ba'}), frozenset({'a'})):
+                              frozenset({'b'}), (frozenset({'', 'aa'}), frozenset({'a'})):
+                              frozenset({'a'}), (frozenset({'a'}), frozenset({''})):
+                              frozenset({'a'})})

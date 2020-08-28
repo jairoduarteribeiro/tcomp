@@ -33,7 +33,24 @@ class DAWG(NFA):
 
     @staticmethod
     def _v(x):
-        return frozenset(map(lambda w: DAWG._left_quotients(w, x), DAWG._p(x)))
+        v = map(lambda w: (w, DAWG._left_quotients(w, x)), DAWG._p(x))
+        return {w: x for w, x in v}
+
+    @staticmethod
+    def _l(v):
+        words = sorted(v.keys(), key=lambda w: len(w))
+        t = words[-1]
+        labels = dict()
+
+        for word in words:
+            if word:
+                if v[word] != frozenset():
+                    labels[(v[word[:-1]], v[word])] = frozenset([word[-1]])
+
+                if '' in v[word]:
+                    labels[(v[word[:-1]], v[t])] = frozenset([word[-1]])
+
+        return labels
 
     def build(self, data):
         self._sample = self._build_sample(data)
