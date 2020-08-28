@@ -31,6 +31,10 @@ class DAWG(NFA):
         result = map(lambda el: el[len(w):], result)
         return frozenset(result)
 
+    @staticmethod
+    def _v(x):
+        return frozenset(map(lambda w: DAWG._left_quotients(w, x), DAWG._p(x)))
+
     def build(self, data):
         self._sample = self._build_sample(data)
         print(self._sample)
