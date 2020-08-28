@@ -4,7 +4,7 @@ from src.utils.set_utils import SetUtils
 
 class NFA(DFA):
     def __init__(self, states, alphabet, start_state, final_states,
-                 transition_table=dict()):
+                 transition_table=None):
         super().__init__(states, alphabet, start_state, final_states,
                          transition_table)
 

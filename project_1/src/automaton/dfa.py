@@ -1,11 +1,11 @@
 class DFA:
     def __init__(self, states, alphabet, start_state, final_states,
-                 transition_table=dict()):
+                 transition_table=None):
         self._states = frozenset(states)
         self._alphabet = frozenset(alphabet)
         self._start_state = start_state
         self._final_states = frozenset(final_states)
-        self._transition_table = transition_table
+        self._transition_table = transition_table or dict()
 
     def _transition_function(self, state, symbol):
         return self._transition_table[(state, symbol)]
