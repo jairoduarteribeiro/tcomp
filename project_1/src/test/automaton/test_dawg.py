@@ -19,3 +19,9 @@ class DAWGTestCase(unittest.TestCase):
         self.assertEqual(self.a._p(frozenset({'aba', 'baa', 'b'})), frozenset({'', 'a', 'ab',
                                                                                'aba', 'b', 'ba',
                                                                                'baa'}))
+
+    def test_left_quotients(self):
+        self.assertEqual(self.a._left_quotients('', frozenset({'aba', 'baa', 'b'})),
+                         frozenset({'aba', 'baa', 'b'}))
+        self.assertEqual(self.a._left_quotients('a', frozenset({'aba', 'baa', 'b'})), frozenset({
+            'ba'}))

@@ -25,6 +25,12 @@ class DAWG(NFA):
         else:
             return frozenset([x[0:i] for i in range(len(x) + 1)])
 
+    @staticmethod
+    def _left_quotients(w, x):
+        result = filter(lambda el: el[0:len(w)] == w, x)
+        result = map(lambda el: el[len(w):], result)
+        return frozenset(result)
+
     def build(self, data):
         self._sample = self._build_sample(data)
         print(self._sample)
