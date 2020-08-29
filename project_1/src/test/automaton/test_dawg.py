@@ -13,9 +13,8 @@ class DAWGTestCase(unittest.TestCase):
 
     def test_p(self):
         self.assertEqual(DAWG._p('abc'), frozenset({'', 'a', 'ab', 'abc'}))
-        self.assertEqual(DAWG._p(frozenset({'aba', 'baa', 'b'})), frozenset({'', 'a', 'ab',
-                                                                             'aba', 'b', 'ba',
-                                                                             'baa'}))
+        self.assertEqual(DAWG._p(frozenset({'aba', 'baa', 'b'})),
+                         frozenset({'', 'a', 'ab', 'aba', 'b', 'ba', 'baa'}))
 
     def test_left_quotients(self):
         self.assertEqual(DAWG._left_quotients('', frozenset({'aba', 'baa', 'b'})),
