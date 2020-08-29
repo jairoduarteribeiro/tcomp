@@ -64,3 +64,22 @@ class DAWGTestCase(unittest.TestCase):
         self.assertEqual(DAWG._build_alphabet(frozenset({'ab', 'bacaa', 'c'}),
                                               frozenset({'a', 'bab', 'aada'})),
                          frozenset({'a', 'b', 'c', 'd'}))
+
+    def test_extend(self):
+        labels = {
+            (1, 2): frozenset({'a'}),
+            (1, 5): frozenset({'b'}),
+            (1, 3): frozenset({'b'}),
+            (2, 4): frozenset({'b'}),
+            (3, 4): frozenset({'a'}),
+            (4, 5): frozenset({'a'})
+        }
+        potencies = {(1, 2): 1, (1, 3): 1, (1, 5): 1, (2, 4): 1, (3, 4): 1, (4, 5): 1}
+        alphabet = frozenset({'a', 'b'})
+        s_neg = frozenset({'a', 'bab', 'aaa'})
+        s = 1
+        t = 5
+        self.assertEqual(DAWG._extend(labels, potencies, alphabet, s_neg, s, t),
+                         {(1, 2): frozenset({'a', 'b'}), (1, 5): frozenset({'b'}),
+                          (1, 3): frozenset({'b'}), (2, 4): frozenset({'b'}),
+                          (3, 4): frozenset({'a', 'b'}), (4, 5): frozenset({'a'})})

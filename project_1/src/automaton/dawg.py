@@ -105,6 +105,23 @@ class DAWG(NFA):
         return SetUtils.union_all_fn(set_1.union(set_2),
                                      lambda word: frozenset([char for char in word]))
 
+    @staticmethod
+    def _extend(labels, potencies, alphabet, s_neg, s, t):
+        a = sorted(potencies.items(), key=lambda pair: pair[-1], reverse=True)
+        a = map(lambda pair: pair[0], a)
+        new_labels = labels.copy()
+
+        for u, v in a:
+            for symbol in alphabet:
+                if symbol not in new_labels[(u, v)]:
+                    new_labels[(u, v)] = new_labels[(u, v)].union(frozenset([symbol]))
+                    accepted = map(lambda w: t in DAWG._transition(s, w, new_labels), s_neg)
+
+                    if reduce(lambda acc, curr: acc or curr, accepted, False):
+                        new_labels[(u, v)] = new_labels[(u, v)].difference(frozenset([symbol]))
+
+        return new_labels
+
     def build(self, data):
         self._sample = self._build_sample(data)
         print(self._sample)
