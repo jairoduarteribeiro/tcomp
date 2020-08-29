@@ -6,6 +6,8 @@ class DAWGTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.a = DAWG()
+        cls.labels = {(1, 2): frozenset({'a'}), (1, 5): frozenset({'b'}), (1, 3): frozenset({'b'}),
+                      (2, 4): frozenset({'b'}), (3, 4): frozenset({'a'}), (4, 5): frozenset({'a'})}
 
     def test_build_sample(self):
         self.assertEqual(DAWG._build_sample({'aba +', 'baa +', 'b +', 'a', 'bab', 'aaa'}),
@@ -50,12 +52,7 @@ class DAWGTestCase(unittest.TestCase):
                          {(1, 2): 2, (2, 3): 1, (2, 4): 1, (3, 4): 1})
 
     def test_transition(self):
-        self.assertEqual(DAWG._transition(1, 'b', {(1, 2): frozenset({'a'}),
-                                                   (1, 5): frozenset({'b'}),
-                                                   (1, 3): frozenset({'b'}),
-                                                   (2, 4): frozenset({'b'}),
-                                                   (3, 4): frozenset({'a'}),
-                                                   (4, 5): frozenset({'a'})}), frozenset({3, 5}))
+        self.assertEqual(DAWG._transition(1, 'b', self.labels), frozenset({3, 5}))
 
     def test_build_alphabet(self):
         self.assertEqual(DAWG._build_alphabet(frozenset({'aba', 'baa', 'b'}),
@@ -66,20 +63,12 @@ class DAWGTestCase(unittest.TestCase):
                          frozenset({'a', 'b', 'c', 'd'}))
 
     def test_extend(self):
-        labels = {
-            (1, 2): frozenset({'a'}),
-            (1, 5): frozenset({'b'}),
-            (1, 3): frozenset({'b'}),
-            (2, 4): frozenset({'b'}),
-            (3, 4): frozenset({'a'}),
-            (4, 5): frozenset({'a'})
-        }
-        potencies = {(1, 2): 1, (1, 3): 1, (1, 5): 1, (2, 4): 1, (3, 4): 1, (4, 5): 1}
+        potency = {(1, 2): 1, (1, 3): 1, (1, 5): 1, (2, 4): 1, (3, 4): 1, (4, 5): 1}
         alphabet = frozenset({'a', 'b'})
         s_neg = frozenset({'a', 'bab', 'aaa'})
         s = 1
         t = 5
-        self.assertEqual(DAWG._extend(labels, potencies, alphabet, s_neg, s, t),
+        self.assertEqual(DAWG._extend(self.labels, potency, alphabet, s_neg, s, t),
                          {(1, 2): frozenset({'a', 'b'}), (1, 5): frozenset({'b'}),
                           (1, 3): frozenset({'b'}), (2, 4): frozenset({'b'}),
                           (3, 4): frozenset({'a', 'b'}), (4, 5): frozenset({'a'})})

@@ -44,8 +44,8 @@ class NFA(DFA):
     def convert_to_dfa(self):
         dfa_states = SetUtils.power_set(self._states)
         dfa_start_state = self._e_close(self._start_state)
-        dfa_final_states = filter(lambda s: len(
-            s.intersection(self._final_states)) > 0, dfa_states)
+        dfa_final_states = filter(lambda states: len(
+            states.intersection(self._final_states)) > 0, dfa_states)
         dfa = DFA(dfa_states, self._alphabet,
                   dfa_start_state, dfa_final_states)
 
