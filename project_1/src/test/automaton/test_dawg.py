@@ -54,10 +54,39 @@ class DAWGTestCase(unittest.TestCase):
                               frozenset({'a'})})
 
     def test_potency(self):
-        self.assertEqual(self.a._potency({(1, 2): '', (1, 3): '', (1, 5): '', (2, 4): '', (3, 4): '',
-                                    (4, 5): ''}, 1, 5),
+        self.assertEqual(self.a._potency({(1, 2), (1, 3), (1, 5), (2, 4), (3, 4),
+                                          (4, 5)}, 1, 5),
                          {(1, 2): 1, (1, 3): 1, (1, 5): 1, (2, 4): 1, (3, 4): 1,
                           (4, 5): 1})
-        self.assertEqual(self.a._potency({(1, 2): '', (2, 3): '', (2, 4): '', (3, 4): ''}, 1, 4),
+        self.assertEqual(self.a._potency({(1, 2), (2, 3), (2, 4), (3, 4)}, 1, 4),
                          {(1, 2): 2,
                           (2, 3): 1, (2, 4): 1, (3, 4): 1})
+
+    def test_transition(self):
+        self.assertEqual(self.a._transition(3, 'aa',
+                                            {(1, 2):
+                                                 frozenset({'a'}),
+                                             (1, 5):
+                                                 frozenset({'b'}),
+                                             (
+                                                 1, 3):
+                                                 frozenset({'b'}),
+                                             (2, 4):
+                                                 frozenset({'b'}),
+                                             (3, 4):
+                                                 frozenset({'a'}),
+                                             (4, 5):
+                                                 frozenset({'a'})}), frozenset({5}))
+        self.assertEqual(self.a._transition(1, 'b', {(1, 2):
+                                                 frozenset({'a'}),
+                                             (1, 5):
+                                                 frozenset({'b'}),
+                                             (
+                                                 1, 3):
+                                                 frozenset({'b'}),
+                                             (2, 4):
+                                                 frozenset({'b'}),
+                                             (3, 4):
+                                                 frozenset({'a'}),
+                                             (4, 5):
+                                                 frozenset({'a'})}), frozenset({3, 5}))

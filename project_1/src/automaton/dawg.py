@@ -54,8 +54,7 @@ class DAWG(NFA):
         return labels
 
     @staticmethod
-    def _potency(labels, s, t):
-        a = labels.keys()
+    def _potency(a, s, t):
         queue = [t]
         p = dict()
 
@@ -82,6 +81,17 @@ class DAWG(NFA):
             del queue[0]
 
         return p
+
+    @staticmethod
+    def _transition(v, string, l):
+        if len(string) == 1:
+            u = filter(lambda pair: pair[0] == v, l.keys())
+            u = filter(lambda pair: string in l[pair], u)
+            return frozenset(map(lambda pair: pair[-1], u))
+        else:
+            w = string[0:-1]
+            a = string[-1]
+            return SetUtils.union_all_fn(DAWG._transition(v, w, l), DAWG._transition, a, l)
 
     def build(self, data):
         self._sample = self._build_sample(data)
