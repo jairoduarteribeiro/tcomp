@@ -8,11 +8,8 @@ class DAWGTestCase(unittest.TestCase):
         cls.a = DAWG()
 
     def test_build_sample(self):
-        self.assertEqual(DAWG._build_sample({'aba +', 'baa +', 'b +', 'a',
-                                             'bab', 'aaa'}),
-                         {'+': frozenset({'aba', 'baa', 'b'}), '-': frozenset({
-                             'a', 'bab', 'aaa'
-                         })})
+        self.assertEqual(DAWG._build_sample({'aba +', 'baa +', 'b +', 'a', 'bab', 'aaa'}),
+                         {'+': frozenset({'aba', 'baa', 'b'}), '-': frozenset({'a', 'bab', 'aaa'})})
 
     def test_p(self):
         self.assertEqual(DAWG._p('abc'), frozenset({'', 'a', 'ab', 'abc'}))
