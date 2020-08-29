@@ -139,5 +139,3 @@ class DAWG(NFA):
         for pair, symbols in labels.items():
             for symbol in symbols:
                 self.add_transition(pair[0], symbol, pair[1])
-
-        print(self._transition_table)

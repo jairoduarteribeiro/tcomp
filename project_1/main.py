@@ -4,6 +4,6 @@ from src.utils.file_utils import FileUtils
 
 
 if __name__ == '__main__':
-    path = join(dirname(realpath(__file__)), 'sample.txt')
+    path = join(dirname(realpath(__file__)), 'waltz.txt')
     data = FileUtils.prepare_data(path)
     a = DAWG(data)
