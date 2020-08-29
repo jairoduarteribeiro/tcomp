@@ -6,7 +6,6 @@ from functools import reduce
 class DAWG(NFA):
     def __init__(self, data=None):
         super().__init__(set(), set(), None, set())
-        self._sample = dict()
 
         if data:
             self.build(data)
@@ -123,5 +122,5 @@ class DAWG(NFA):
         return new_labels
 
     def build(self, data):
-        self._sample = self._build_sample(data)
-        print(self._sample)
+        sample = DAWG._build_sample(data)
+        print(sample)
