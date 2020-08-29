@@ -19,8 +19,8 @@ class DAWGTestCase(unittest.TestCase):
     def test_left_quotients(self):
         self.assertEqual(DAWG._left_quotients('', frozenset({'aba', 'baa', 'b'})),
                          frozenset({'aba', 'baa', 'b'}))
-        self.assertEqual(DAWG._left_quotients('a', frozenset({'aba', 'baa', 'b'})), frozenset({
-            'ba'}))
+        self.assertEqual(DAWG._left_quotients('a', frozenset({'aba', 'baa', 'b'})),
+                         frozenset({'ba'}))
 
     def test_v_a_l(self):
         v_a_l = DAWG._v_a_l(frozenset({'aba', 'baa', 'b'}))
