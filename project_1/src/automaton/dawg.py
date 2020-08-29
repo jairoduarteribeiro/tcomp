@@ -54,7 +54,7 @@ class DAWG(NFA):
         return labels
 
     @staticmethod
-    def _p(labels, s, t):
+    def _potency(labels, s, t):
         a = labels.keys()
         queue = [t]
         p = dict()
@@ -66,11 +66,16 @@ class DAWG(NFA):
                 for pair_t in u:
                     p[pair_t] = 1
             else:
-                w = filter(lambda pair: pair[0] == queue[0], a)
-                w = reduce(lambda acc, pair: acc + p[pair], w, 0)
-
-                for pair_v in u:
-                    p[pair_v] = w
+                try:
+                    w = list(filter(lambda pair: pair[0] == queue[0], a))
+                    w = reduce(lambda acc, pair: acc + p[pair], w, 0)
+                except KeyError:
+                    queue.append(queue[0])
+                    del queue[0]
+                    continue
+                finally:
+                    for pair_v in u:
+                        p[pair_v] = w
 
             u = filter(lambda pair: pair[0] != s, u)
             queue = queue + list(map(lambda pair: pair[0], u))
