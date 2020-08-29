@@ -105,8 +105,8 @@ class DAWG(NFA):
                                      lambda word: frozenset([char for char in word]))
 
     @staticmethod
-    def _extend(labels, potencies, alphabet, s_neg, s, t):
-        a = sorted(potencies.items(), key=lambda pair: pair[-1], reverse=True)
+    def _extend(labels, potency, alphabet, s_neg, s, t):
+        a = sorted(potency.items(), key=lambda pair: pair[-1], reverse=True)
         a = map(lambda pair: pair[0], a)
         new_labels = labels.copy()
 
@@ -123,4 +123,21 @@ class DAWG(NFA):
 
     def build(self, data):
         sample = DAWG._build_sample(data)
-        print(sample)
+        v_a_l = DAWG._v_a_l(sample['+'])
+
+        self._states = v_a_l('v')
+        self._alphabet = DAWG._build_alphabet(sample['+'], sample['-'])
+        self._start_state = sample['+']
+        self._final_states = frozenset({''})
+
+        potency = DAWG._potency(v_a_l('a'), self._start_state, self._final_states)
+        labels = DAWG._extend(v_a_l('l'), potency, self._alphabet, sample['-'],
+                              self._start_state, self._final_states)
+
+        self._transition_table = dict()
+
+        for pair, symbols in labels.items():
+            for symbol in symbols:
+                self.add_transition(pair[0], symbol, pair[1])
+
+        print(self._transition_table)
