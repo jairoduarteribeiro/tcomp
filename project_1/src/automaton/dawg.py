@@ -1,5 +1,6 @@
 from src.automaton.nfa import NFA
 from src.utils.set_utils import SetUtils
+from functools import reduce
 
 
 class DAWG(NFA):
@@ -51,6 +52,31 @@ class DAWG(NFA):
                     labels[(v[word[:-1]], v[t])] = frozenset([word[-1]])
 
         return labels
+
+    @staticmethod
+    def _p(labels, s, t):
+        a = labels.keys()
+        queue = [t]
+        p = dict()
+
+        while len(queue) > 0:
+            u = list(filter(lambda pair: pair[-1] == queue[0], a))
+
+            if queue[0] == t:
+                for pair_t in u:
+                    p[pair_t] = 1
+            else:
+                w = filter(lambda pair: pair[0] == queue[0], a)
+                w = reduce(lambda acc, pair: acc + p[pair], w, 0)
+
+                for pair_v in u:
+                    p[pair_v] = w
+
+            u = filter(lambda pair: pair[0] != s, u)
+            queue = queue + list(map(lambda pair: pair[0], u))
+            del queue[0]
+
+        return p
 
     def build(self, data):
         self._sample = self._build_sample(data)

@@ -52,3 +52,9 @@ class DAWGTestCase(unittest.TestCase):
                               frozenset({'b'}), (frozenset({'', 'aa'}), frozenset({'a'})):
                               frozenset({'a'}), (frozenset({'a'}), frozenset({''})):
                               frozenset({'a'})})
+
+    def test_p(self):
+        self.assertEqual(self.a._p({(1, 2): '', (1, 3): '', (1, 5): '', (2, 4): '', (3, 4): '',
+                                    (4, 5): ''}, 1, 5),
+                         {(1, 2): 1, (1, 3): 1, (1, 5): 1, (2, 4): 1, (3, 4): 1,
+                          (4, 5): 1})
