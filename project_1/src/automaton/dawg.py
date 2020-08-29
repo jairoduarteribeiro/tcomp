@@ -71,8 +71,8 @@ class DAWG(NFA):
                 for pair_t in u:
                     p[pair_t] = 1
             else:
+                w = list(filter(lambda pair: pair[0] == queue[0], a))
                 try:
-                    w = list(filter(lambda pair: pair[0] == queue[0], a))
                     w = reduce(lambda acc, pair: acc + p[pair], w, 0)
                 except KeyError:
                     queue.append(queue[0])
@@ -89,15 +89,16 @@ class DAWG(NFA):
         return p
 
     @staticmethod
-    def _transition(v, string, l):
+    def _transition(vertex, string, labels):
         if len(string) == 1:
-            u = filter(lambda pair: pair[0] == v, l.keys())
-            u = filter(lambda pair: string in l[pair], u)
+            u = filter(lambda pair: pair[0] == vertex, labels.keys())
+            u = filter(lambda pair: string in labels[pair], u)
             return frozenset(map(lambda pair: pair[-1], u))
         else:
             w = string[0:-1]
             a = string[-1]
-            return SetUtils.union_all_fn(DAWG._transition(v, w, l), DAWG._transition, a, l)
+            return SetUtils.union_all_fn(DAWG._transition(vertex, w, labels),
+                                         DAWG._transition, a, labels)
 
     def build(self, data):
         self._sample = self._build_sample(data)
