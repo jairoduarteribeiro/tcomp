@@ -33,25 +33,31 @@ class DAWG(NFA):
         return frozenset(result)
 
     @staticmethod
-    def _v(x):
-        v = map(lambda w: (w, DAWG._left_quotients(w, x)), DAWG._p(x))
-        return {w: x for w, x in v}
+    def _v_a_l(x):
+        model = map(lambda w: (w, DAWG._left_quotients(w, x)), DAWG._p(x))
+        model = {w: x for w, x in model}
 
-    @staticmethod
-    def _l(v):
-        words = sorted(v.keys(), key=lambda w: len(w))
+        words = sorted(model.keys(), key=lambda w: len(w))
         t = words[-1]
         labels = dict()
 
         for word in words:
             if word:
-                if v[word] != frozenset():
-                    labels[(v[word[:-1]], v[word])] = frozenset([word[-1]])
+                if model[word] != frozenset():
+                    labels[(model[word[:-1]], model[word])] = frozenset([word[-1]])
 
-                if '' in v[word]:
-                    labels[(v[word[:-1]], v[t])] = frozenset([word[-1]])
+                if '' in model[word]:
+                    labels[(model[word[:-1]], model[t])] = frozenset([word[-1]])
 
-        return labels
+        def choose(op):
+            if op == 'v':
+                return frozenset(model.values())
+            elif op == 'a':
+                return frozenset(labels.keys())
+            else:
+                return labels
+
+        return choose
 
     @staticmethod
     def _potency(a, s, t):
