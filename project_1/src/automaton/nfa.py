@@ -35,7 +35,7 @@ class NFA(DFA):
 
     def add_transition(self, state_before, symbol, state_after):
         self._transition_table[(state_before, symbol)] = \
-            self._transition_function(state_before, symbol).union(frozenset([state_after]))
+            self._transition_function(state_before, symbol).union(frozenset(state_after))
 
     def accept(self, string):
         result = self._ext_transition_function(self._start_state, string)
