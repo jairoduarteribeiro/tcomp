@@ -100,6 +100,11 @@ class DAWG(NFA):
             return SetUtils.union_all_fn(DAWG._transition(vertex, w, labels),
                                          DAWG._transition, a, labels)
 
+    @staticmethod
+    def _build_alphabet(set_1, set_2):
+        return SetUtils.union_all_fn(set_1.union(set_2),
+                                     lambda word: frozenset([char for char in word]))
+
     def build(self, data):
         self._sample = self._build_sample(data)
         print(self._sample)

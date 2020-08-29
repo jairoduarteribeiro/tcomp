@@ -56,3 +56,11 @@ class DAWGTestCase(unittest.TestCase):
                                                    (2, 4): frozenset({'b'}),
                                                    (3, 4): frozenset({'a'}),
                                                    (4, 5): frozenset({'a'})}), frozenset({3, 5}))
+
+    def test_build_alphabet(self):
+        self.assertEqual(DAWG._build_alphabet(frozenset({'aba', 'baa', 'b'}),
+                                              frozenset({'a', 'bab', 'aaa'})),
+                         frozenset({'a', 'b'}))
+        self.assertEqual(DAWG._build_alphabet(frozenset({'ab', 'bacaa', 'c'}),
+                                              frozenset({'a', 'bab', 'aada'})),
+                         frozenset({'a', 'b', 'c', 'd'}))
