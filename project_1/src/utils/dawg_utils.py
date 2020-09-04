@@ -17,12 +17,12 @@ class DAWGUtils:
             return SetUtils.union_all_fn(x, DAWGUtils.prefixes)
         else:
             return frozenset([x[0:i] for i in range(len(x) + 1)])
-    #
-    # @staticmethod
-    # def left_quotients(w, x):
-    #     result = filter(lambda el: el[0:len(w)] == w, x)
-    #     result = map(lambda el: el[len(w):], result)
-    #     return frozenset(result)
+
+    @staticmethod
+    def left_quotients(w, x):
+        result = filter(lambda el: el[0:len(w)] == w, x)
+        result = map(lambda el: el[len(w):], result)
+        return frozenset(result)
     #
     # @staticmethod
     # def v_a_l(x):
