@@ -1,4 +1,4 @@
-# from src.utils.set_utils import SetUtils
+from src.utils.set_utils import SetUtils
 # from functools import reduce
 
 
@@ -11,12 +11,12 @@ class DAWGUtils:
         negative = frozenset(map(lambda p: p.split(' ')[0], negative))
         return {'+': positive, '-': negative}
 
-    # @staticmethod
-    # def p(x):
-    #     if isinstance(x, frozenset):
-    #         return SetUtils.union_all_fn(x, DAWGUtils.p)
-    #     else:
-    #         return frozenset([x[0:i] for i in range(len(x) + 1)])
+    @staticmethod
+    def prefixes(x):
+        if isinstance(x, frozenset):
+            return SetUtils.union_all_fn(x, DAWGUtils.prefixes)
+        else:
+            return frozenset([x[0:i] for i in range(len(x) + 1)])
     #
     # @staticmethod
     # def left_quotients(w, x):

@@ -8,10 +8,12 @@ class DAWGUtilsTestCase(unittest.TestCase):
             DAWGUtils.build_sample({'aba +', 'baa +', 'b +', 'a', 'bab', 'aaa'}),
             {'+': frozenset({'aba', 'baa', 'b'}), '-': frozenset({'a', 'bab', 'aaa'})})
 
-    # def test_p(self):
-    #     self.assertEqual(DAWG._p('abc'), frozenset({'', 'a', 'ab', 'abc'}))
-    #     self.assertEqual(DAWG._p(frozenset({'aba', 'baa', 'b'})),
-    #                      frozenset({'', 'a', 'ab', 'aba', 'b', 'ba', 'baa'}))
+    def test_prefixes(self):
+        self.assertEqual(DAWGUtils.prefixes('abc'), frozenset({'', 'a', 'ab', 'abc'}))
+        self.assertEqual(
+            DAWGUtils.prefixes(frozenset({'aba', 'baa', 'b'})),
+            frozenset({'', 'a', 'ab', 'aba', 'b', 'ba', 'baa'})
+        )
     #
     # def test_left_quotients(self):
     #     self.assertEqual(DAWG._left_quotients('', frozenset({'aba', 'baa', 'b'})),
