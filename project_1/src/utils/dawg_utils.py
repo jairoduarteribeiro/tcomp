@@ -92,12 +92,12 @@ class DAWGUtils:
     #         return SetUtils.union_all_fn(
     #             DAWGUtils.transition(vertex, w, labels), DAWGUtils.transition, a, labels
     #         )
-    #
-    # @staticmethod
-    # def build_alphabet(set_1, set_2):
-    #     return SetUtils.union_all_fn(
-    #         set_1.union(set_2), lambda word: frozenset([char for char in word])
-    #     )
+
+    @staticmethod
+    def build_alphabet(positive, negative):
+        return SetUtils.union_all_fn(
+            positive.union(negative), lambda word: frozenset([char for char in word])
+        )
     #
     # @staticmethod
     # def extend(labels, potency, alphabet, s_neg, s, t):

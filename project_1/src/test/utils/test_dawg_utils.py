@@ -69,17 +69,24 @@ class DAWGUtilsTestCase(unittest.TestCase):
             DAWGUtils.potency({(1, 2), (2, 3), (2, 4), (3, 4)}, 1, 4),
             {(1, 2): 2, (2, 3): 1, (2, 4): 1, (3, 4): 1}
         )
+
     #
     # def test_transition(self):
     #     self.assertEqual(DAWG._transition(1, 'b', self.labels), frozenset({3, 5}))
-    #
-    # def test_build_alphabet(self):
-    #     self.assertEqual(DAWG._build_alphabet(frozenset({'aba', 'baa', 'b'}),
-    #                                           frozenset({'a', 'bab', 'aaa'})),
-    #                      frozenset({'a', 'b'}))
-    #     self.assertEqual(DAWG._build_alphabet(frozenset({'ab', 'bacaa', 'c'}),
-    #                                           frozenset({'a', 'bab', 'aada'})),
-    #                      frozenset({'a', 'b', 'c', 'd'}))
+
+    def test_build_alphabet(self):
+        self.assertEqual(
+            DAWGUtils.build_alphabet(
+                frozenset({'aba', 'baa', 'b'}),
+                frozenset({'a', 'bab', 'aaa'})),
+            frozenset({'a', 'b'})
+        )
+        self.assertEqual(
+            DAWGUtils.build_alphabet(
+                frozenset({'ab', 'bacaa', 'c'}),
+                frozenset({'a', 'bab', 'aada'})),
+            frozenset({'a', 'b', 'c', 'd'})
+        )
     #
     # def test_extend(self):
     #     potency = {(1, 2): 1, (1, 3): 1, (1, 5): 1, (2, 4): 1, (3, 4): 1, (4, 5): 1}
