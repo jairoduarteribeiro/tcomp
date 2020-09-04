@@ -24,27 +24,41 @@ class DAWGUtilsTestCase(unittest.TestCase):
             DAWGUtils.left_quotients('a', frozenset({'aba', 'baa', 'b'})),
             frozenset({'ba'})
         )
-    #
-    # def test_v_a_l(self):
-    #     v_a_l = DAWG._v_a_l(frozenset({'aba', 'baa', 'b'}))
-    #     self.assertEqual(v_a_l('v'),
-    #                      frozenset({frozenset({'aba', 'baa', 'b'}), frozenset({'ba'}),
-    #                                 frozenset({'a'}), frozenset({'aa', ''}), frozenset({''})}))
-    #     self.assertEqual(v_a_l('a'),
-    #                      frozenset({(frozenset({'aba', 'baa', 'b'}), frozenset({''})),
-    #                                 (frozenset({'aba', 'baa', 'b'}), frozenset({'aa', ''})),
-    #                                 (frozenset({'aba', 'baa', 'b'}), frozenset({'ba'})),
-    #                                 (frozenset({'ba'}), frozenset({'a'})),
-    #                                 (frozenset({'aa', ''}), frozenset({'a'})),
-    #                                 (frozenset({'a'}), frozenset({''}))}))
-    #     self.assertEqual(v_a_l('l'), {
-    #         (frozenset({'b', 'baa', 'aba'}), frozenset({'ba'})): frozenset({'a'}),
-    #         (frozenset({'b', 'baa', 'aba'}), frozenset({''})): frozenset({'b'}),
-    #         (frozenset({'b', 'baa', 'aba'}), frozenset({'', 'aa'})): frozenset({'b'}),
-    #         (frozenset({'ba'}), frozenset({'a'})): frozenset({'b'}),
-    #         (frozenset({'', 'aa'}), frozenset({'a'})): frozenset({'a'}),
-    #         (frozenset({'a'}), frozenset({''})): frozenset({'a'})
-    #     })
+
+    def test_v_a_l(self):
+        v_a_l = DAWGUtils.v_a_l(frozenset({'aba', 'baa', 'b'}))
+        self.assertEqual(
+            v_a_l('v'),
+            frozenset({
+                frozenset({'aba', 'baa', 'b'}),
+                frozenset({'ba'}),
+                frozenset({'a'}),
+                frozenset({'aa', ''}),
+                frozenset({''})
+            })
+        )
+        self.assertEqual(
+            v_a_l('a'),
+            frozenset({
+                (frozenset({'aba', 'baa', 'b'}), frozenset({''})),
+                (frozenset({'aba', 'baa', 'b'}), frozenset({'aa', ''})),
+                (frozenset({'aba', 'baa', 'b'}), frozenset({'ba'})),
+                (frozenset({'ba'}), frozenset({'a'})),
+                (frozenset({'aa', ''}), frozenset({'a'})),
+                (frozenset({'a'}), frozenset({''}))
+            })
+        )
+        self.assertEqual(
+            v_a_l('l'),
+            {
+                (frozenset({'b', 'baa', 'aba'}), frozenset({'ba'})): frozenset({'a'}),
+                (frozenset({'b', 'baa', 'aba'}), frozenset({''})): frozenset({'b'}),
+                (frozenset({'b', 'baa', 'aba'}), frozenset({'', 'aa'})): frozenset({'b'}),
+                (frozenset({'ba'}), frozenset({'a'})): frozenset({'b'}),
+                (frozenset({'', 'aa'}), frozenset({'a'})): frozenset({'a'}),
+                (frozenset({'a'}), frozenset({''})): frozenset({'a'})
+            }
+        )
     #
     # def test_potency(self):
     #     self.assertEqual(DAWG._potency({(1, 2), (1, 3), (1, 5), (2, 4), (3, 4), (4, 5)}, 1, 5),

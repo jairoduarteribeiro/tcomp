@@ -23,33 +23,33 @@ class DAWGUtils:
         result = filter(lambda el: el[0:len(w)] == w, x)
         result = map(lambda el: el[len(w):], result)
         return frozenset(result)
-    #
-    # @staticmethod
-    # def v_a_l(x):
-    #     model = map(lambda w: (w, DAWGUtils.left_quotients(w, x)), DAWGUtils.p(x))
-    #     model = {w: x for w, x in model}
-    #
-    #     words = sorted(model.keys(), key=lambda w: len(w))
-    #     t = words[-1]
-    #     labels = dict()
-    #
-    #     for word in words:
-    #         if word:
-    #             if model[word] != frozenset():
-    #                 labels[(model[word[:-1]], model[word])] = frozenset([word[-1]])
-    #
-    #             if '' in model[word]:
-    #                 labels[(model[word[:-1]], model[t])] = frozenset([word[-1]])
-    #
-    #     def choose(op):
-    #         if op == 'v':
-    #             return frozenset(model.values())
-    #         elif op == 'a':
-    #             return frozenset(labels.keys())
-    #         else:
-    #             return labels
-    #
-    #     return choose
+
+    @staticmethod
+    def v_a_l(x):
+        model = map(lambda w: (w, DAWGUtils.left_quotients(w, x)), DAWGUtils.prefixes(x))
+        model = {w: x for w, x in model}
+        print(model)
+
+        words = sorted(model.keys(), key=lambda w: len(w))
+        t = words[-1]
+        labels = dict()
+
+        for word in words[1:]:
+            if model[word] != frozenset():
+                labels[(model[word[:-1]], model[word])] = frozenset([word[-1]])
+
+            if '' in model[word]:
+                labels[(model[word[:-1]], model[t])] = frozenset([word[-1]])
+
+        def choose(op):
+            if op == 'v':
+                return frozenset(model.values())
+            elif op == 'a':
+                return frozenset(labels.keys())
+            else:
+                return labels
+
+        return choose
     #
     # @staticmethod
     # def potency(a, s, t):
