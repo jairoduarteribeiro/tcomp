@@ -1,6 +1,6 @@
 from src.utils.set_utils import SetUtils
-# from functools import reduce
-
+from functools import reduce
+from collections import deque
 
 class DAWGUtils:
     @staticmethod
@@ -50,35 +50,35 @@ class DAWGUtils:
                 return labels
 
         return choose
-    #
-    # @staticmethod
-    # def potency(a, s, t):
-    #     queue = [t]
-    #     p = dict()
-    #
-    #     while len(queue) > 0:
-    #         u = list(filter(lambda pair: pair[-1] == queue[0], a))
-    #
-    #         if queue[0] == t:
-    #             for pair_t in u:
-    #                 p[pair_t] = 1
-    #         else:
-    #             w = list(filter(lambda pair: pair[0] == queue[0], a))
-    #             try:
-    #                 w = reduce(lambda acc, pair: acc + p[pair], w, 0)
-    #             except KeyError:
-    #                 queue.append(queue[0])
-    #                 del queue[0]
-    #                 continue
-    #             finally:
-    #                 for pair_v in u:
-    #                     p[pair_v] = w
-    #
-    #         u = filter(lambda pair: pair[0] != s, u)
-    #         queue = queue + list(map(lambda pair: pair[0], u))
-    #         del queue[0]
-    #
-    #     return p
+
+    @staticmethod
+    def potency(a, s, t):
+        queue = deque({t})
+        p = dict()
+
+        while queue:
+            u = list(filter(lambda pair: pair[-1] == queue[0], a))
+
+            if queue[0] == t:
+                for pair_t in u:
+                    p[pair_t] = 1
+            else:
+                w = filter(lambda pair: pair[0] == queue[0], a)
+                try:
+                    w = reduce(lambda acc, pair: acc + p[pair], w, 0)
+                except KeyError:
+                    queue.append(queue[0])
+                    queue.popleft()
+                    continue
+                finally:
+                    for pair_v in u:
+                        p[pair_v] = w
+
+            u = filter(lambda pair: pair[0] != s, u)
+            queue.extend(list(map(lambda pair: pair[0], u)))
+            queue.popleft()
+
+        return p
     #
     # @staticmethod
     # def transition(vertex, string, labels):
