@@ -6,3 +6,22 @@ class FileUtils:
         f.close()
         data = map(lambda d: d.strip().replace('\t', ' '), data)
         return set(data)
+
+    @staticmethod
+    def read_csv(path):
+        f = open(path, 'r')
+        data = f.readlines()[1:]
+        f.close()
+        data = map(lambda line: line.strip().split(','), data)
+        data = map(lambda line: (line[0] == 'amyloid', line[1]), data)
+        result = {
+            True: set(),
+            False: set()
+        }
+
+        for value, word in data:
+            result[value].add(word)
+
+        print(f'True: {len(result[True])}')
+        print(f'False: {len(result[False])}')
+        return result

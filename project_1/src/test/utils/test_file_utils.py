@@ -8,3 +8,10 @@ class FileUtilsTestCase(unittest.TestCase):
         path = join(dirname(realpath(__file__)), 'sample.txt')
         self.assertEqual(FileUtils.prepare_data(path), {'aba +', 'baa +', 'b +', 'a',
                                                         'bab', 'aaa'})
+
+    def test_read_csv(self):
+        path = join(dirname(realpath(__file__)), 'sample.csv')
+        self.assertEqual(FileUtils.read_csv(path), {
+            True: {'SSNNFG', 'SSTNVG', 'SSTSAA'},
+            False: {'SSNNNS', 'SSSGIK'}
+        })
