@@ -58,10 +58,21 @@ class DAWG(NFA):
                     if new_states.intersection(self._final_states):
                         dfa_final_states = dfa_final_states.union({new_states})
 
-        return DFA(
+        return DAWGDFA(
             states=dfa_states,
             alphabet=dfa_alphabet,
             start_state=dfa_start_state,
             final_states=dfa_final_states,
             transition_table=dfa_transition_table
         )
+
+
+class DAWGDFA(DFA):
+    def __init__(self, states, alphabet, start_state, final_states, transition_table):
+        super().__init__(states, alphabet, start_state, final_states, transition_table)
+
+    def _transition_function(self, state, symbol):
+        try:
+            return super()._transition_function(state, symbol)
+        except KeyError:
+            return frozenset()
