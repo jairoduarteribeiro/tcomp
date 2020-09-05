@@ -43,3 +43,17 @@ class DAWGTestCase(unittest.TestCase):
                 },
             }
         )
+
+    def test_convert_to_dfa(self):
+        dawg = DAWG({'aba +', 'baa +', 'b +', 'a', 'bab', 'aaa'})
+        dfa = dawg.convert_to_dfa()
+        self.assertEqual(dfa._states, frozenset({
+            frozenset(),
+            frozenset({frozenset({'aba', 'baa', 'b'})}),
+            frozenset({frozenset({'ba'}), frozenset({'', 'aa'}), frozenset({''})}),
+            frozenset({frozenset({'ba'})}),
+            frozenset({frozenset({'a'})}),
+            frozenset({frozenset({''})})
+        }))
+        self.assertEqual(dfa._alphabet, frozenset({'a', 'b'}))
+        self.assertEqual(dfa._start_state, frozenset({frozenset({'aba', 'baa', 'b'})}))

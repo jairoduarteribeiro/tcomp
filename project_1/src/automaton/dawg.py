@@ -1,5 +1,9 @@
 from src.automaton.nfa import NFA
+from src.automaton.dfa import DFA
 from src.utils.dawg_utils import DAWGUtils
+from src.utils.set_utils import SetUtils
+from collections import deque
+from functools import reduce
 
 
 class DAWG(NFA):
@@ -32,3 +36,27 @@ class DAWG(NFA):
                     self._transition_table[(pair[0], symbol)].add(pair[1])
                 except KeyError:
                     self._transition_table[(pair[0], symbol)] = {pair[1]}
+
+    def convert_to_dfa(self):
+        dfa_start_state = frozenset({self._start_state})
+        dfa_alphabet = frozenset(self._alphabet)
+        dfa_states = frozenset({dfa_start_state})
+        queue = deque({dfa_start_state})
+
+        while queue:
+            states = queue.popleft()
+
+            for symbol in dfa_alphabet:
+                new_states = SetUtils.union_all_fn(states, self._transition_function, symbol)
+
+                if new_states not in dfa_states:
+                    dfa_states = dfa_states.union({new_states})
+                    queue.append(new_states)
+
+        return DFA(
+            states=dfa_states,
+            alphabet=dfa_alphabet,
+            start_state=dfa_start_state,
+            final_states=set(),
+            transition_table=dict()
+        )
