@@ -3,7 +3,6 @@ from src.automaton.dfa import DFA
 from src.utils.dawg_utils import DAWGUtils
 from src.utils.set_utils import SetUtils
 from collections import deque
-from functools import reduce
 
 
 class DAWG(NFA):
@@ -41,6 +40,7 @@ class DAWG(NFA):
         dfa_start_state = frozenset({self._start_state})
         dfa_alphabet = frozenset(self._alphabet)
         dfa_states = frozenset({dfa_start_state})
+        dfa_final_states = frozenset()
         queue = deque({dfa_start_state})
 
         while queue:
@@ -53,10 +53,13 @@ class DAWG(NFA):
                     dfa_states = dfa_states.union({new_states})
                     queue.append(new_states)
 
+                    if new_states.intersection(self._final_states):
+                        dfa_final_states = dfa_final_states.union({new_states})
+
         return DFA(
             states=dfa_states,
             alphabet=dfa_alphabet,
             start_state=dfa_start_state,
-            final_states=set(),
+            final_states=dfa_final_states,
             transition_table=dict()
         )

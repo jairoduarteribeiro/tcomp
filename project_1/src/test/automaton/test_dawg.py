@@ -57,3 +57,7 @@ class DAWGTestCase(unittest.TestCase):
         }))
         self.assertEqual(dfa._alphabet, frozenset({'a', 'b'}))
         self.assertEqual(dfa._start_state, frozenset({frozenset({'aba', 'baa', 'b'})}))
+        self.assertEqual(dfa._final_states, frozenset({
+            frozenset({frozenset({'ba'}), frozenset({'', 'aa'}), frozenset({''})}),
+            frozenset({frozenset({''})})
+        }))
