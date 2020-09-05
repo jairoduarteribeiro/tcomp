@@ -79,19 +79,20 @@ class DAWGUtils:
             queue.popleft()
 
         return p
-    #
-    # @staticmethod
-    # def transition(vertex, string, labels):
-    #     if len(string) == 1:
-    #         u = filter(lambda pair: pair[0] == vertex, labels.keys())
-    #         u = filter(lambda pair: string in labels[pair], u)
-    #         return frozenset(map(lambda pair: pair[-1], u))
-    #     else:
-    #         w = string[0:-1]
-    #         a = string[-1]
-    #         return SetUtils.union_all_fn(
-    #             DAWGUtils.transition(vertex, w, labels), DAWGUtils.transition, a, labels
-    #         )
+
+    @staticmethod
+    def transition(vertex, string, labels):
+        if len(string) == 1:
+            u = filter(lambda pair: pair[0] == vertex, labels.keys())
+            u = filter(lambda pair: string in labels[pair], u)
+            u = map(lambda pair: pair[-1], u)
+            return frozenset(u)
+        else:
+            w = string[0:-1]
+            a = string[-1]
+            return SetUtils.union_all_fn(
+                DAWGUtils.transition(vertex, w, labels), DAWGUtils.transition, a, labels
+            )
 
     @staticmethod
     def build_alphabet(positive, negative):

@@ -3,6 +3,25 @@ from src.utils.dawg_utils import DAWGUtils
 
 
 class DAWGUtilsTestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.labels = {
+            (frozenset({'b', 'baa', 'aba'}), frozenset({'ba'})): frozenset({'a'}),
+            (frozenset({'b', 'baa', 'aba'}), frozenset({''})): frozenset({'b'}),
+            (frozenset({'b', 'baa', 'aba'}), frozenset({'', 'aa'})): frozenset({'b'}),
+            (frozenset({'ba'}), frozenset({'a'})): frozenset({'b'}),
+            (frozenset({'', 'aa'}), frozenset({'a'})): frozenset({'a'}),
+            (frozenset({'a'}), frozenset({''})): frozenset({'a'})
+        }
+        cls.potency = {
+            (frozenset({'aba', 'baa', 'b'}), frozenset({'ba'})): 1,
+            (frozenset({'aba', 'baa', 'b'}), frozenset({'', 'aa'})): 1,
+            (frozenset({'aba', 'baa', 'b'}), frozenset({''})): 1,
+            (frozenset({'ba'}), frozenset({'a'})): 1,
+            (frozenset({'', 'aa'}), frozenset({'a'})): 1,
+            (frozenset({'a'}), frozenset({''})): 1
+        }
+
     def test_build_sample(self):
         self.assertEqual(
             DAWGUtils.build_sample({'aba +', 'baa +', 'b +', 'a', 'bab', 'aaa'}),
@@ -50,14 +69,7 @@ class DAWGUtilsTestCase(unittest.TestCase):
         )
         self.assertEqual(
             v_a_l('l'),
-            {
-                (frozenset({'b', 'baa', 'aba'}), frozenset({'ba'})): frozenset({'a'}),
-                (frozenset({'b', 'baa', 'aba'}), frozenset({''})): frozenset({'b'}),
-                (frozenset({'b', 'baa', 'aba'}), frozenset({'', 'aa'})): frozenset({'b'}),
-                (frozenset({'ba'}), frozenset({'a'})): frozenset({'b'}),
-                (frozenset({'', 'aa'}), frozenset({'a'})): frozenset({'a'}),
-                (frozenset({'a'}), frozenset({''})): frozenset({'a'})
-            }
+            self.labels
         )
 
     def test_potency(self):
@@ -70,9 +82,31 @@ class DAWGUtilsTestCase(unittest.TestCase):
             {(1, 2): 2, (2, 3): 1, (2, 4): 1, (3, 4): 1}
         )
 
-    #
-    # def test_transition(self):
-    #     self.assertEqual(DAWG._transition(1, 'b', self.labels), frozenset({3, 5}))
+    def test_transition(self):
+        self.assertEqual(
+            DAWGUtils.transition(frozenset({'aba', 'baa', 'b'}), 'a', self.labels),
+            frozenset({frozenset({'ba'})})
+        )
+        self.assertEqual(
+            DAWGUtils.transition(frozenset({'aba', 'baa', 'b'}), 'b', self.labels),
+            frozenset({frozenset({'', 'aa'}), frozenset({''})})
+        )
+        self.assertEqual(
+            DAWGUtils.transition(frozenset({'aba', 'baa', 'b'}), 'ab', self.labels),
+            frozenset({frozenset({'a'})})
+        )
+        self.assertEqual(
+            DAWGUtils.transition(frozenset({'aba', 'baa', 'b'}), 'ba', self.labels),
+            frozenset({frozenset({'a'})})
+        )
+        self.assertEqual(
+            DAWGUtils.transition(frozenset({'aba', 'baa', 'b'}), 'aba', self.labels),
+            frozenset({frozenset({''})})
+        )
+        self.assertEqual(
+            DAWGUtils.transition(frozenset({'aba', 'baa', 'b'}), 'baa', self.labels),
+            frozenset({frozenset({''})})
+        )
 
     def test_build_alphabet(self):
         self.assertEqual(
@@ -87,6 +121,7 @@ class DAWGUtilsTestCase(unittest.TestCase):
                 frozenset({'a', 'bab', 'aada'})),
             frozenset({'a', 'b', 'c', 'd'})
         )
+
     #
     # def test_extend(self):
     #     potency = {(1, 2): 1, (1, 3): 1, (1, 5): 1, (2, 4): 1, (3, 4): 1, (4, 5): 1}

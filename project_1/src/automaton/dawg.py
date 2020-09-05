@@ -4,7 +4,7 @@ from src.utils.dawg_utils import DAWGUtils
 
 class DAWG(NFA):
     def __init__(self, data=None):
-        super().__init__(set(), set(), None, set())
+        super().__init__(set(), set(), None, set(), dict())
 
         if data:
             self.build(data)
