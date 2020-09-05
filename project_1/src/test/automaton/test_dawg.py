@@ -85,5 +85,12 @@ class DAWGTestCase(unittest.TestCase):
             (frozenset(), 'a'):
                 frozenset(),
             (frozenset(), 'b'):
-                frozenset(),
+                frozenset()
         })
+
+        self.assertEqual(dawg.accept('aba'), dfa.accept('aba'))
+        self.assertEqual(dawg.accept('baa'), dfa.accept('baa'))
+        self.assertEqual(dawg.accept('b'), dfa.accept('b'))
+        self.assertEqual(dawg.accept('a'), dfa.accept('a'))
+        self.assertEqual(dawg.accept('bab'), dfa.accept('bab'))
+        self.assertEqual(dawg.accept('aaa'), dfa.accept('aaa'))

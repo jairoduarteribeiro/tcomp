@@ -36,6 +36,19 @@ class DAWG(NFA):
                 except KeyError:
                     self._transition_table[(pair[0], symbol)] = {pair[1]}
 
+    def _ext_transition_function(self, state, string):
+        if not string:
+            return frozenset({state})
+        else:
+            x = string[0:-1]
+            a = string[-1]
+
+            return SetUtils.union_all_fn(
+                self._ext_transition_function(state, x),
+                self._transition_function,
+                a
+            )
+
     def convert_to_dfa(self):
         dfa_start_state = frozenset({self._start_state})
         dfa_alphabet = frozenset(self._alphabet)
