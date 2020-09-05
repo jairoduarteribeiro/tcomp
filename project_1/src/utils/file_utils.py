@@ -22,6 +22,4 @@ class FileUtils:
         for value, word in data:
             result[value].add(word)
 
-        print(f'True: {len(result[True])}')
-        print(f'False: {len(result[False])}')
         return result
