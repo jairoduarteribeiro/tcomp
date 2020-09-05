@@ -41,6 +41,7 @@ class DAWG(NFA):
         dfa_alphabet = frozenset(self._alphabet)
         dfa_states = frozenset({dfa_start_state})
         dfa_final_states = frozenset()
+        dfa_transition_table = dict()
         queue = deque({dfa_start_state})
 
         while queue:
@@ -48,6 +49,7 @@ class DAWG(NFA):
 
             for symbol in dfa_alphabet:
                 new_states = SetUtils.union_all_fn(states, self._transition_function, symbol)
+                dfa_transition_table[(states, symbol)] = new_states
 
                 if new_states not in dfa_states:
                     dfa_states = dfa_states.union({new_states})
@@ -61,5 +63,5 @@ class DAWG(NFA):
             alphabet=dfa_alphabet,
             start_state=dfa_start_state,
             final_states=dfa_final_states,
-            transition_table=dict()
+            transition_table=dfa_transition_table
         )

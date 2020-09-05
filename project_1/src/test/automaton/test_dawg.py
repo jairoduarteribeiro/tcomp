@@ -61,3 +61,29 @@ class DAWGTestCase(unittest.TestCase):
             frozenset({frozenset({'ba'}), frozenset({'', 'aa'}), frozenset({''})}),
             frozenset({frozenset({''})})
         }))
+        self.assertEqual(dfa._transition_table, {
+            (frozenset({frozenset({'aba', 'baa', 'b'})}), 'a'):
+                frozenset({frozenset({'ba'})}),
+            (frozenset({frozenset({'aba', 'baa', 'b'})}), 'b'):
+                frozenset({frozenset({'ba'}), frozenset({'', 'aa'}), frozenset({''})}),
+            (frozenset({frozenset({'ba'})}), 'a'):
+                frozenset(),
+            (frozenset({frozenset({'ba'})}), 'b'):
+                frozenset({frozenset({'a'})}),
+            (frozenset({frozenset({'ba'}), frozenset({'', 'aa'}), frozenset({''})}), 'a'):
+                frozenset({frozenset({'a'})}),
+            (frozenset({frozenset({'ba'}), frozenset({'', 'aa'}), frozenset({''})}), 'b'):
+                frozenset({frozenset({'a'})}),
+            (frozenset({frozenset({'a'})}), 'a'):
+                frozenset({frozenset({''})}),
+            (frozenset({frozenset({'a'})}), 'b'):
+                frozenset(),
+            (frozenset({frozenset({''})}), 'a'):
+                frozenset(),
+            (frozenset({frozenset({''})}), 'b'):
+                frozenset(),
+            (frozenset(), 'a'):
+                frozenset(),
+            (frozenset(), 'b'):
+                frozenset(),
+        })
