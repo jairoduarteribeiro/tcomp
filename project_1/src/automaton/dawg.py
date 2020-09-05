@@ -11,20 +11,24 @@ class DAWG(NFA):
 
     def build(self, data):
         sample = DAWGUtils.build_sample(data)
-        print(sample)
-        # v_a_l = DAWGUtils.v_a_l(sample['+'])
-        #
-        # self._states = v_a_l('v')
-        # self._alphabet = DAWGUtils.build_alphabet(sample['+'], sample['-'])
-        # self._start_state = sample['+']
-        # self._final_states = frozenset({''})
-        #
-        # potency = DAWGUtils.potency(v_a_l('a'), self._start_state, self._final_states)
-        # labels = DAWGUtils.extend(v_a_l('l'), potency, self._alphabet, sample['-'],
-        #                       self._start_state, self._final_states)
-        #
-        # self._transition_table = dict()
-        #
-        # for pair, symbols in labels.items():
-        #     for symbol in symbols:
-        #         self._transition_table[(pair[0], symbol)] = pair[1]
+        v_a_l = DAWGUtils.v_a_l(sample['+'])
+        final_state = frozenset({''})
+
+        self._states = v_a_l('v')
+        self._alphabet = DAWGUtils.build_alphabet(sample['+'], sample['-'])
+        self._start_state = sample['+']
+        self._final_states = frozenset({final_state})
+
+        potency = DAWGUtils.potency(v_a_l('a'), self._start_state, final_state)
+        labels = DAWGUtils.extend(
+            v_a_l('l'), potency, self._alphabet, sample['-'], self._start_state, final_state
+        )
+
+        self._transition_table = dict()
+
+        for pair, symbols in labels.items():
+            for symbol in symbols:
+                try:
+                    self._transition_table[(pair[0], symbol)].add(pair[1])
+                except KeyError:
+                    self._transition_table[(pair[0], symbol)] = {pair[1]}

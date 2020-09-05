@@ -29,7 +29,6 @@ class DAWGUtils:
     def v_a_l(x):
         model = map(lambda w: (w, DAWGUtils.left_quotients(w, x)), DAWGUtils.prefixes(x))
         model = {w: x for w, x in model}
-        print(model)
 
         words = sorted(model.keys(), key=lambda w: len(w))
         t = words[-1]
