@@ -122,14 +122,18 @@ class DAWGUtilsTestCase(unittest.TestCase):
             frozenset({'a', 'b', 'c', 'd'})
         )
 
-    #
-    # def test_extend(self):
-    #     potency = {(1, 2): 1, (1, 3): 1, (1, 5): 1, (2, 4): 1, (3, 4): 1, (4, 5): 1}
-    #     alphabet = frozenset({'a', 'b'})
-    #     s_neg = frozenset({'a', 'bab', 'aaa'})
-    #     s = 1
-    #     t = 5
-    #     self.assertEqual(DAWG._extend(self.labels, potency, alphabet, s_neg, s, t),
-    #                      {(1, 2): frozenset({'a', 'b'}), (1, 5): frozenset({'b'}),
-    #                       (1, 3): frozenset({'b'}), (2, 4): frozenset({'b'}),
-    #                       (3, 4): frozenset({'a', 'b'}), (4, 5): frozenset({'a'})})
+    def test_extend(self):
+        alphabet = frozenset({'a', 'b'})
+        s_neg = frozenset({'a', 'bab', 'aaa'})
+        s = frozenset({'aba', 'baa', 'b'})
+        t = frozenset({''})
+        self.assertEqual(
+            DAWGUtils.extend(self.labels, self.potency, alphabet, s_neg, s, t), {
+                (frozenset({'b', 'baa', 'aba'}), frozenset({'ba'})): frozenset({'a', 'b'}),
+                (frozenset({'b', 'baa', 'aba'}), frozenset({''})): frozenset({'b'}),
+                (frozenset({'b', 'baa', 'aba'}), frozenset({'', 'aa'})): frozenset({'b'}),
+                (frozenset({'ba'}), frozenset({'a'})): frozenset({'b'}),
+                (frozenset({'', 'aa'}), frozenset({'a'})): frozenset({'a', 'b'}),
+                (frozenset({'a'}), frozenset({''})): frozenset({'a'})
+            }
+        )

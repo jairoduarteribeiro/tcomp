@@ -2,6 +2,7 @@ from src.utils.set_utils import SetUtils
 from functools import reduce
 from collections import deque
 
+
 class DAWGUtils:
     @staticmethod
     def build_sample(data):
@@ -99,20 +100,22 @@ class DAWGUtils:
         return SetUtils.union_all_fn(
             positive.union(negative), lambda word: frozenset([char for char in word])
         )
-    #
-    # @staticmethod
-    # def extend(labels, potency, alphabet, s_neg, s, t):
-    #     a = sorted(potency.items(), key=lambda pair: pair[-1], reverse=True)
-    #     a = map(lambda pair: pair[0], a)
-    #     new_labels = labels.copy()
-    #
-    #     for u, v in a:
-    #         for symbol in alphabet:
-    #             if symbol not in new_labels[(u, v)]:
-    #                 new_labels[(u, v)] = new_labels[(u, v)].union(frozenset([symbol]))
-    #                 accepted = map(lambda w: t in DAWGUtils.transition(s, w, new_labels), s_neg)
-    #
-    #                 if reduce(lambda acc, curr: acc or curr, accepted, False):
-    #                     new_labels[(u, v)] = new_labels[(u, v)].difference(frozenset([symbol]))
-    #
-    #     return new_labels
+
+    @staticmethod
+    def extend(labels, potency, alphabet, s_neg, s, t):
+        a = sorted(potency.items(), key=lambda pair: pair[-1], reverse=True)
+        a = map(lambda pair: pair[0], a)
+        new_labels = labels.copy()
+
+        for u, v in a:
+            for symbol in alphabet:
+                if symbol not in new_labels[(u, v)]:
+                    new_labels[(u, v)] = new_labels[(u, v)].union(frozenset({symbol}))
+                    accepted = list(
+                        filter(lambda w: t in DAWGUtils.transition(s, w, new_labels), s_neg)
+                    )
+
+                    if accepted:
+                        new_labels[(u, v)] = new_labels[(u, v)].difference(frozenset({symbol}))
+
+        return new_labels
