@@ -1,0 +1,10 @@
+Build DAWG (NFA): 653.98 seconds.
+Convert DAWG to DFA: 1.53 seconds.
+Process time with DAWG: 0.17 seconds.
+Result
+- Hits: 439 (40.54%)
+- Misses: 644 (59.46%)
+Process time with DFA: 0.01 seconds.
+Result
+- Hits: 439 (40.54%)
+- Misses: 644 (59.46%)

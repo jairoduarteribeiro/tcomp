@@ -29,27 +29,27 @@ if __name__ == '__main__':
     # Build DAWG from dataset.
     current_time = time()
     dawg = DAWG(data)
-    print(f'Build DAWG (NFA): {time() - current_time} seconds.')
+    print(f'Build DAWG (NFA): {time() - current_time:.2f} seconds.')
 
     # Convert DAWG to DFA.
     current_time = time()
     dfa = dawg.convert_to_dfa()
-    print(f'Convert DAWG to DFA: {time() - current_time} seconds.')
+    print(f'Convert DAWG to DFA: {time() - current_time:.2f} seconds.')
 
     # Process database with DAWG
     current_time = time()
     result = process(db, dawg.accept)
     total = result['right'] + result['wrong']
-    print(f'Process time with DAWG: {time() - current_time} seconds.')
+    print(f'Process time with DAWG: {time() - current_time:.2f} seconds.')
     print(f'Result')
-    print(f'- Hits: {result["right"]} ({100 * result["right"] / total}%)')
-    print(f'- Misses: {result["wrong"]} ({100 * result["wrong"] / total}%)')
+    print(f'- Hits: {result["right"]} ({100 * result["right"] / total:.2f}%)')
+    print(f'- Misses: {result["wrong"]} ({100 * result["wrong"] / total:.2f}%)')
 
     # Process database with DFA
     current_time = time()
     result = process(db, dfa.accept)
     total = result['right'] + result['wrong']
-    print(f'Process time with DFA: {time() - current_time} seconds.')
+    print(f'Process time with DFA: {time() - current_time:.2f} seconds.')
     print(f'Result')
-    print(f'- Hits: {result["right"]} ({100 * result["right"] / total}%)')
-    print(f'- Misses: {result["wrong"]} ({100 * result["wrong"] / total}%)')
+    print(f'- Hits: {result["right"]} ({100 * result["right"] / total:.2f}%)')
+    print(f'- Misses: {result["wrong"]} ({100 * result["wrong"] / total:.2f}%)')
