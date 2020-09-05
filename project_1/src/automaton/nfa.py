@@ -6,12 +6,12 @@ class NFA(DFA):
     def __init__(self, states, alphabet, start_state, final_states, transition_table):
         super().__init__(states, alphabet, start_state, final_states, transition_table)
 
-    def _e_close(self, state_or_states):
-        if isinstance(state_or_states, frozenset):
-            return SetUtils.union_all_fn(state_or_states, self._e_close)
-        else:
-            epsilon_transitions = self._transition_function(state_or_states, '')
-            return frozenset({state_or_states}).union(self._e_close(epsilon_transitions))
+    def _e_close(self, state):
+        epsilon_transitions = self._transition_function(state, '')
+        return frozenset({state}).union(self._e_close_set(epsilon_transitions))
+
+    def _e_close_set(self, states):
+        return SetUtils.union_all_fn(states, self._e_close)
 
     def _transition_function(self, state, symbol):
         try:
@@ -46,7 +46,7 @@ class NFA(DFA):
         for symbol in self._alphabet:
             for state in dfa_states:
                 r = SetUtils.union_all_fn(state, self._transition_function, symbol)
-                dfa_transition_table[(state, symbol)] = self._e_close(r)
+                dfa_transition_table[(state, symbol)] = self._e_close_set(r)
 
         return DFA(
             states=dfa_states,

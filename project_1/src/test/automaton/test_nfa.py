@@ -57,7 +57,7 @@ class NFATestCase(unittest.TestCase):
         self.assertEqual(self.a._e_close(3), frozenset({3, 5}))
         self.assertEqual(self.a._e_close(4), frozenset({4}))
         self.assertEqual(self.a._e_close(5), frozenset({5}))
-        self.assertEqual(self.a._e_close(frozenset({2, 3})), frozenset({2, 3, 5}))
+        self.assertEqual(self.a._e_close_set(frozenset({2, 3})), frozenset({2, 3, 5}))
 
     def test_transition_function(self):
         self.assertEqual(self.a._transition_function(0, ''), frozenset({1}))
