@@ -104,3 +104,46 @@ class CFGTestCase(TestCase):
             },
             start_symbol='S'
         ))
+
+    def test_remove_unit_rules(self):
+        g1 = CFG(
+            variables={'$0', 'S', 'A', 'B'},
+            terminals={'a', 'b'},
+            productions={
+                ('$0', ('S',)),
+                ('S', ('A', 'S', 'A')),
+                ('S', ('S', 'A')),
+                ('S', ('A', 'S')),
+                ('S', ('S',)),
+                ('S', ('a', 'B')),
+                ('S', ('a',)),
+                ('A', ('B',)),
+                ('A', ('S',)),
+                ('B', ('b',))
+            },
+            start_symbol='$0'
+        )
+        self.assertEqual(g1._remove_unit_rules(), CFG(
+            variables={'$0', 'S', 'A', 'B'},
+            terminals={'a', 'b'},
+            productions={
+                ('$0', ('A', 'S', 'A')),
+                ('$0', ('S', 'A')),
+                ('$0', ('A', 'S')),
+                ('$0', ('a', 'B')),
+                ('$0', ('a',)),
+                ('S', ('A', 'S', 'A')),
+                ('S', ('S', 'A')),
+                ('S', ('A', 'S')),
+                ('S', ('a', 'B')),
+                ('S', ('a',)),
+                ('A', ('A', 'S', 'A')),
+                ('A', ('S', 'A')),
+                ('A', ('A', 'S')),
+                ('A', ('a', 'B')),
+                ('A', ('a',)),
+                ('A', ('b',)),
+                ('B', ('b',))
+            },
+            start_symbol='$0'
+        ))

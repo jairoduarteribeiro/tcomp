@@ -77,6 +77,37 @@ class CFG:
             start_symbol=self._start_symbol
         )
 
+    def _remove_unit_rules(self):
+        productions = self._productions
+        removed_productions = frozenset()
+
+        while True:
+            curr = \
+                next((p for p in productions if len(p[1]) == 1 and p[1][0] in self._variables),
+                     None)
+
+            if not curr:
+                break
+
+            removed_productions = removed_productions.union((curr,))
+            productions = productions.difference((curr,))
+            new_productions = frozenset()
+            curr_left = frozenset(filter(lambda p: curr[1][0] == p[0], productions))
+
+            for p in curr_left:
+                new_productions = \
+                    new_productions.union(((curr[0], p[1]),))
+
+            new_productions = new_productions.difference(removed_productions)
+            productions = productions.union(new_productions)
+
+        return CFG(
+            variables=self._variables,
+            terminals=self._terminals,
+            productions=productions,
+            start_symbol=self._start_symbol
+        )
+
     def normalize(self):
         if self._is_normalized:
             return CFG(
@@ -89,7 +120,8 @@ class CFG:
         else:
             g = self\
                 ._replace_start_symbol()\
-                ._remove_epsilon()
+                ._remove_epsilon()\
+                ._remove_unit_rules()
             return CFG(
                 variables=g._variables,
                 terminals=g._terminals,
