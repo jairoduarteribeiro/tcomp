@@ -1,5 +1,5 @@
 from unittest import TestCase
-from grammar.cfg import CFG
+from src.grammar.cfg import CFG
 
 
 class CFGTestCase(TestCase):
