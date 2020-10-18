@@ -143,9 +143,9 @@ class CFG:
 
         while True:
             curr = \
-                next((p for p in productions if len(p[1] == 2 and (
+                next((p for p in productions if len(p[1]) == 2 and (
                         p[1][0] in self._terminals or p[1][1] in self._terminals
-                ))), None)
+                )), None)
 
             if not curr:
                 break
