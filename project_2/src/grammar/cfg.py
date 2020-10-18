@@ -181,6 +181,52 @@ class CFG:
             start_symbol=self._start_symbol
         )
 
+    def _symbols_that_generate_strings(self):
+        def tuple_subset(tuple1, tuple2):
+            for t in tuple1:
+                if t not in tuple2:
+                    return False
+            return True
+
+        productions = frozenset()
+        symbols = self._terminals
+        old_len = -1
+
+        while old_len != len(symbols):
+            old_len = len(symbols)
+
+            for p in self._productions:
+                if p not in productions and tuple_subset(p[1], symbols):
+                    symbols = symbols.union((p[0],))
+                    productions = productions.union((p,))
+
+        return CFG(
+            variables=self._variables.intersection(symbols),
+            productions=productions,
+            terminals=self._terminals,
+            start_symbol=self._start_symbol
+        )
+
+    def _remove_useless_symbols(self):
+        productions = frozenset()
+        symbols = frozenset({self._start_symbol})
+        old_len = -1
+
+        while old_len != len(symbols):
+            old_len = len(symbols)
+
+            for p in self._productions:
+                if p not in productions and p[0] in symbols:
+                    symbols = symbols.union(p[1])
+                    productions = productions.union((p,))
+
+        return CFG(
+            variables=self._variables.intersection(symbols),
+            productions=productions,
+            terminals=self._terminals.intersection(symbols),
+            start_symbol=self._start_symbol
+        )
+
     def normalize(self):
         if self._is_normalized:
             return CFG(
@@ -196,7 +242,9 @@ class CFG:
                 ._remove_epsilon() \
                 ._remove_unit_rules() \
                 ._keep_rules_with_two_symbols() \
-                ._remove_terminals_from_no_unit_rules()
+                ._remove_terminals_from_no_unit_rules() \
+                ._symbols_that_generate_strings() \
+                ._remove_useless_symbols()
             return CFG(
                 variables=g._variables,
                 terminals=g._terminals,

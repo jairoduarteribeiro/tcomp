@@ -2,19 +2,30 @@ from grammar.cfg import CFG
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    # cfg = CFG(
+    #     variables={'S', 'A', 'B'},
+    #     terminals={'a', 'b'},
+    #     productions={
+    #         ('S', ('A', 'S', 'A')),
+    #         ('S', ('a', 'B')),
+    #         ('A', ('B', 'b')),
+    #         ('B', ('b',)),
+    #         ('B', ('',)),
+    #     },
+    #     start_symbol='S'
+    # )
     cfg = CFG(
         variables={'S', 'A', 'B'},
         terminals={'a', 'b'},
         productions={
-            ('S', ('A', 'S', 'A')),
-            ('S', ('a', 'B')),
-            ('A', ('B', 'b')),
-            ('B', ('b',)),
-            ('B', ('',)),
+            ('S', ('a',)),
+            ('S', ('A', 'B')),
+            ('A', ('b',))
         },
         start_symbol='S'
     )
     cfg.accept(())
+    print(cfg)
     # g1 = CFG(
     #     variables={'F', 'O', 'A', 'N'},
     #     terminals={'->', '/\\', '\\/', '!', '(', ')', 'p', 'q', 'r'},
