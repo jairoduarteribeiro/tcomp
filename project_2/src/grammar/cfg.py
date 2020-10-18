@@ -156,21 +156,21 @@ class CFG:
             production = next((p for p in new_productions if slc == p[1]), None)
 
             if production:
-                if curr[1][1] in self._terminals:
-                    productions = \
-                        productions.union(((curr[0], (curr[1][0], production[0])),))
-                else:
+                if curr[1][0] in self._terminals:
                     productions = \
                         productions.union(((curr[0], (production[0], curr[1][1])),))
+                else:
+                    productions = \
+                        productions.union(((curr[0], (curr[1][0], production[0])),))
             else:
                 new_production = (f'@{index}', slc)
                 variables = variables.union((new_production[0],))
-                if curr[1][1] in self._terminals:
-                    productions = \
-                        productions.union(((curr[0], (curr[1][0], new_production[0])),))
-                else:
+                if curr[1][0] in self._terminals:
                     productions = \
                         productions.union(((curr[0], (new_production[0], curr[1][1])),))
+                else:
+                    productions = \
+                        productions.union(((curr[0], (curr[1][0], new_production[0])),))
                 productions = productions.union((new_production,))
                 new_productions = new_productions.union((new_production,))
                 index = index + 1
