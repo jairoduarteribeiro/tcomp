@@ -1,4 +1,5 @@
-from itertools import chain, combinations
+from itertools import chain, combinations, product
+import numpy as np
 
 
 class CFG:
@@ -255,6 +256,31 @@ class CFG:
 
     def accept(self, string):
         if self._is_normalized:
-            return False
+            len_str = len(string)
+            cyk = np.empty((len_str, len_str), dtype=object)
+
+            for lin in range(len_str):
+                for col in range(lin, len_str):
+                    i = col - lin
+                    j = col
+                    result = frozenset()
+
+                    if i == j:
+                        substr = string[i:j + 1]
+
+                        for p in self._productions:
+                            if p[1] == substr:
+                                result = result.union((p[0],))
+                    else:
+                        for q in range(i, j):
+                            symbols = frozenset(product(cyk[i, q], cyk[q + 1, j]))
+
+                            for p in self._productions:
+                                if p[1] in symbols:
+                                    result = result.union((p[0],))
+
+                    cyk[i, j] = result
+
+            return self._start_symbol in cyk[0, len_str - 1]
         else:
             return self.normalize().accept(string)

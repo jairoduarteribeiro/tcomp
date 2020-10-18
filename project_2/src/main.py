@@ -14,18 +14,33 @@ if __name__ == '__main__':
     #     },
     #     start_symbol='S'
     # )
+    # cfg = CFG(
+    #     variables={'S', 'A', 'B'},
+    #     terminals={'a', 'b'},
+    #     productions={
+    #         ('S', ('a',)),
+    #         ('S', ('A', 'B')),
+    #         ('A', ('b',))
+    #     },
+    #     start_symbol='S'
+    # )
     cfg = CFG(
-        variables={'S', 'A', 'B'},
+        variables={'S', 'A', 'B', 'C'},
         terminals={'a', 'b'},
         productions={
-            ('S', ('a',)),
             ('S', ('A', 'B')),
-            ('A', ('b',))
+            ('S', ('B', 'C')),
+            ('A', ('B', 'A')),
+            ('A', ('a',)),
+            ('B', ('C', 'C')),
+            ('B', ('b',)),
+            ('C', ('A', 'B')),
+            ('C', ('a',)),
         },
-        start_symbol='S'
+        start_symbol='S',
+        is_normalized=True
     )
-    cfg.accept(())
-    print(cfg)
+    print(cfg.accept(('b', 'a', 'a', 'b', 'a')))
     # g1 = CFG(
     #     variables={'F', 'O', 'A', 'N'},
     #     terminals={'->', '/\\', '\\/', '!', '(', ')', 'p', 'q', 'r'},
