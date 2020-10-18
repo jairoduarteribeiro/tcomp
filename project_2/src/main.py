@@ -21,7 +21,7 @@ if __name__ == '__main__':
         start_symbol='F'
     )
     g1 = g1.normalize()
-    print(g1.accept(string=('p', '/\\', '!', 'r', '\\/', 'q', '->', '!', '!')))
+    print(g1.accept(string=('p', '/\\', '!', 'r', '\\/', 'q', '->', '!', '!')))  # error
     print(g1.accept(string=('p', '/\\', '!', 'r', '\\/', 'q', '->', '!', 'q')))
 
     g2 = CFG(

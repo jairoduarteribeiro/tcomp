@@ -182,7 +182,7 @@ class CFG:
             start_symbol=self._start_symbol
         )
 
-    def _symbols_that_generate_strings(self):
+    def _keep_symbols_that_generate_strings(self):
         def tuple_subset(tuple1, tuple2):
             for t in tuple1:
                 if t not in tuple2:
@@ -244,7 +244,7 @@ class CFG:
                 ._remove_unit_rules() \
                 ._keep_rules_with_two_symbols() \
                 ._remove_terminals_from_no_unit_rules() \
-                ._symbols_that_generate_strings() \
+                ._keep_symbols_that_generate_strings() \
                 ._remove_useless_symbols()
             return CFG(
                 variables=g._variables,
